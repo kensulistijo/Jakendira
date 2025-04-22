@@ -49,6 +49,31 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      body: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: const TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.directions_car)),
+            Tab(icon: Icon(Icons.directions_transit)),
+            Tab(icon: Icon(Icons.directions_bike)),
+            Tab(icon: Icon(Icons.directions_bike)),
+          ],
+          ),
+          ),
+          body: const TabBarView(
+            children: [
+              Icon(Icons.directions_car),
+              Icon(Icons.directions_transit),
+              Icon(Icons.directions_bike),
+              Icon(Icons.directions_bike),
+              // Center(child: Text("Chats")),
+              // Center(child: Text("Calls")),
+              // Center(child: Text("Settings")),
+            ],
+          ),
+        )),
     );
   }
 }
