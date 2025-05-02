@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:jakendira/models/Todo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -14,12 +13,12 @@ class TodoController {
     });
   }
 
-static Stream<QuerySnapshot> getTodayTodos() {
-  final now = DateTime.now();
-  final startOfDay = DateTime(now.year, now.month, now.day);
-  final startOfTomorrow = startOfDay.add(Duration(days: 1));
+  static Stream<QuerySnapshot> getTodayTodos() {
+    final now = DateTime.now();
+    final startOfDay = DateTime(now.year, now.month, now.day);
+    final startOfTomorrow = startOfDay.add(Duration(days: 1));
 
-  return _collection
+    return _collection
       .where('created_at', isGreaterThanOrEqualTo: startOfDay)
       .where('created_at', isLessThan: startOfTomorrow)
       .orderBy('created_at', descending: true)
