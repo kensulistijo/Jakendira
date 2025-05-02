@@ -1,12 +1,12 @@
 class Todo {
   final int id;
-  final String name;
+  final String title;
   final String description;
   final String status;
 
   Todo({
     required this.id,
-    required this.name,
+    required this.title,
     required this.description,
     required this.status
   });
@@ -14,7 +14,7 @@ class Todo {
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
       id: json['id'] as int,
-      name: json['name'] as String,
+      title: json['name'] as String,
       description: json['description'] as String,
       status: json['status'] as String
     );
@@ -23,7 +23,7 @@ class Todo {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
+      'title': title,
       'description': description,
       'status' : status
     };

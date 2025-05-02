@@ -6,38 +6,34 @@ class TodoController {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final CollectionReference _collection = _firestore.collection('Todo');
 
-  static Future<void> addEmployee({required String name, required int age}) async {
-    await _collection.add({'name': name, 'age': age, 'created_at': Timestamp.now()});
+  Future<void> createTodo(Todo input) async {
+    await FirebaseFirestore.instance.collection('todos').add({
+      'title': input.title,
+      'description': input.description,
+      'status': 'Not Finished'
+    });
   }
 
-  // READ (Stream for real-time updates)
-  static Stream<QuerySnapshot> readEmployees() {
-    return _collection.orderBy('created_at', descending: true).snapshots();
+static Stream<QuerySnapshot> getTodayTodos() {
+  final now = DateTime.now();
+  final startOfDay = DateTime(now.year, now.month, now.day);
+  final startOfTomorrow = startOfDay.add(Duration(days: 1));
+
+  return _collection
+      .where('created_at', isGreaterThanOrEqualTo: startOfDay)
+      .where('created_at', isLessThan: startOfTomorrow)
+      .orderBy('created_at', descending: true)
+      .snapshots();
   }
 
-  // UPDATE
-  static Future<void> updateEmployee({required String docId, required String name, required int age}) async {
-    await _collection.doc(docId).update({'name': name, 'age': age, 'updated_at': Timestamp.now()});
+  static Future<void> deleteTodo({required String todoId}) async {
+    await _collection.doc(todoId).delete();
   }
 
-  // DELETE
-  static Future<void> deleteEmployee({required String docId}) async {
-    await _collection.doc(docId).delete();
-  }
-}
-  Future<void> submitInput(Todo input) async {
-    // await FirebaseFirestore.instance.collection('users').add({
-    //   'name': name,
-    //   'email': email,
-    //   'age': age,
-    // });
+  static Future<void> finishTodo({required String todoId}) async {
+    await _collection.doc(todoId).update({
+      'status': 'finished', 
+    });
   }
 
-  void changeStatus(Todo input){
-
-  }
-
-  void deleteSchedule(Todo input){
-    
-  }
 }
